@@ -11,7 +11,7 @@ reddit = praw.Reddit(client_id="############",
 subreddit = reddit.subreddit('jokes')
 
 
-def get_jokes(timestampfrom, timestampto, date):
+def blonde_jokes_data(timestampfrom, timestampto, date):
     authors = []
     unique_users = 0
     blonde_count = 0
@@ -22,9 +22,11 @@ def get_jokes(timestampfrom, timestampto, date):
             authors.append(sub_author)
         title = submission.title
         text = submission.selftext
+        # the following variable store the entire joke
         joke = submission.title + " " + submission.selftext
-        wordcheck = ["blonde", "Blonde", "blond", "Blond"
-        if "blonde" in joke or "Blonde" in joke or "blond" in joke or "Blond" in joke:
+        # include any words to be checked for in this list
+        wordcheck = ["blonde", "Blonde", "blond", "Blond"]
+        if any(x in joke for x in wordcheck):
             blonde_count += 1
             print (blonde_count)
         joke_count += 1
@@ -36,6 +38,6 @@ def get_jokes(timestampfrom, timestampto, date):
     print (str(unique_users) + " unique users contributed to this subreddit")
     print (str(blonde_count) + " jokes contained the word \'blonde\'")
     print (100 * float(blonde_count)/float(joke_count))
-
-#
+    
+# calls the method - the first two arguments can be replaced with other epoch timestamps to record data for different periods of time
 blonde_jokes(1230768000, 1262303999, "2009")
